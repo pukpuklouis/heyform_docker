@@ -20,8 +20,11 @@ jobs:
           path: mongodb-raspberrypi-docker
 
       - name: Log in to ghcr.io
-        run: |
-          echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and tag image
         run: |
