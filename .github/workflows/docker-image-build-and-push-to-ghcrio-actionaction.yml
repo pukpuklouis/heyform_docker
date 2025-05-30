@@ -1,0 +1,36 @@
+name: Docker Image Build and push to GHCR.io Action
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current repository
+        uses: actions/checkout@v3
+
+      - name: Checkout mongodb-raspberrypi-docker repository
+        uses: actions/checkout@v3
+        with:
+          repository: thematman/mongodb-raspberrypi-docker
+          ref: r7.0.14-mongodb-raspberrypi-docker-unofficial
+          path: mongodb-raspberrypi-docker
+
+      - name: Log in to ghcr.io
+        run: |
+          echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and tag image
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/mongodb-raspberrypi-docker
+          IMAGE_TAG=r7.0.14-mongodb-raspberrypi-docker-unofficial
+          docker build -t $IMAGE_NAME:$IMAGE_TAG -f mongodb-raspberrypi-docker/Dockerfile mongodb-raspberrypi-docker
+
+      - name: Push image to GHCR
+        run: |
+          IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/mongodb-raspberrypi-docker
+          IMAGE_TAG=r7.0.14-mongodb-raspberrypi-docker-unofficial
+          docker push $IMAGE_NAME:$IMAGE_TAG
