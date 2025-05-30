@@ -15,7 +15,7 @@ jobs:
       - name: Checkout mongodb-raspberrypi-docker repository
         uses: actions/checkout@v3
         with:
-          repository: https://github.com/themattman/mongodb-raspberrypi-docker
+          repository: themattman/mongodb-raspberrypi-docker
           ref: 7.0.14
           path: mongodb-raspberrypi-docker
 
