@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v3
         with:
           repository: themattman/mongodb-raspberrypi-docker
-          ref: r7.0.14-mongodb-raspberrypi-docker-unofficial
+          ref: main
           path: mongodb-raspberrypi-docker
 
       - name: Log in to ghcr.io
@@ -29,11 +29,11 @@ jobs:
       - name: Build and tag image
         run: |
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/mongodb-raspberrypi-docker
-          IMAGE_TAG=7.0.14
-          docker build -t $IMAGE_NAME:$IMAGE_TAG -f mongodb-raspberrypi-docker/Dockerfile mongodb-raspberrypi-docker
+          IMAGE_TAG=r7.0.14
+          docker build -t $IMAGE_NAME:$IMAGE_TAG -f mongodb-raspberrypi-docker/7.0.14/Dockerfile mongodb-raspberrypi-docker/7.0.14
 
       - name: Push image to GHCR
         run: |
           IMAGE_NAME=ghcr.io/${{ github.repository_owner }}/mongodb-raspberrypi-docker
-          IMAGE_TAG=7.0.14
+          IMAGE_TAG=r7.0.14
           docker push $IMAGE_NAME:$IMAGE_TAG
